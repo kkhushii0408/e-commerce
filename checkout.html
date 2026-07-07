@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Luxora</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .checkout-card {
+            background: #fff;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkout-card h5 {
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+        }
+
+        .summary-card {
+            background: #fff;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+            overflow: hidden;
+            position: sticky;
+            top: 90px;
+        }
+
+        .summary-header {
+            background: #0f172a;
+            color: #fff;
+            padding: 1rem 1.25rem;
+            font-weight: 700;
+        }
+
+        .order-item-img {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #0f172a;
+            color: #fff;
+            font-weight: 700;
+            font-size: .85rem;
+            margin-right: .75rem;
+            flex-shrink: 0;
+        }
+
+        .payment-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .payment-option:has(input:checked),
+        .payment-option.selected {
+            border-color: #0f172a;
+            background: #f8fafc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar — Luxora style matching all other pages -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="bi bi-bag-check me-2"></i>Luxora</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#checkoutNav"
+                aria-controls="checkoutNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="checkoutNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.html">
+                        <i class="bi bi-cart me-1"></i>Cart</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-outline-dark position-relative" href="wishlist.html" aria-label="View wishlist">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a class="btn btn-dark position-relative" href="cart.html" aria-label="View cart">
+                        <i class="bi bi-cart3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="py-5">
+        <div class="container">
+            <h2 class="fw-bold mb-4"><i class="bi bi-lock me-2"></i>Checkout</h2>
+
+            <!-- Empty cart fallback -->
+            <div id="emptyCartMessage" class="d-none">
+                <div class="checkout-card text-center py-5">
+                    <i class="bi bi-cart-x fs-1 text-secondary mb-3 d-block"></i>
+                    <h5>Your cart is empty</h5>
+                    <p class="text-secondary mb-3">Add items to your cart before proceeding to checkout.</p>
+                    <a href="categories.html" class="btn btn-dark">Browse Products</a>
+                </div>
+            </div>
+
+            <!-- Checkout form -->
+            <div id="checkoutForm">
+                <div class="row g-4">
+                    <!-- Left: Form -->
+                    <div class="col-lg-8">
+
+                        <!-- Shipping Address -->
+                        <div class="checkout-card">
+                            <h5><span class="step-badge">1</span>Shipping Address</h5>
+                            <form id="shippingForm" novalidate>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstName"
+                                            placeholder="Jane" required>
+                                        <div class="invalid-feedback">First name is required.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName"
+                                            placeholder="Doe" required>
+                                        <div class="invalid-feedback">Last name is required.</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="email"
+                                            placeholder="you@example.com" required>
+                                        <div class="invalid-feedback">A valid email is required.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone"
+                                            placeholder="+91 98765 43210" required>
+                                        <div class="invalid-feedback">Phone number is required.</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="addressLine1" class="form-label">Address Line 1</label>
+                                        <input type="text" class="form-control" id="addressLine1"
+                                            placeholder="House / Flat No., Building Name" required>
+                                        <div class="invalid-feedback">Address is required.</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="addressLine2" class="form-label">Address Line 2 <span class="text-secondary">(optional)</span></label>
+                                        <input type="text" class="form-control" id="addressLine2"
+                                            placeholder="Street, Area, Landmark">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="city" class="form-label">City</label>
+                                        <input type="text" class="form-control" id="city"
+                                            placeholder="New Delhi" required>
+                                        <div class="invalid-feedback">City is required.</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="state" class="form-label">State</label>
+                                        <select class="form-select" id="state" required>
+                                            <option value="">Select state</option>
+                                            <option>Andhra Pradesh</option>
+                                            <option>Delhi</option>
+                                            <option>Gujarat</option>
+                                            <option>Karnataka</option>
+                                            <option>Kerala</option>
+                                            <option>Maharashtra</option>
+                                            <option>Rajasthan</option>
+                                            <option>Tamil Nadu</option>
+                                            <option>Telangana</option>
+                                            <option>Uttar Pradesh</option>
+                                            <option>West Bengal</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select your state.</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="pincode" class="form-label">PIN Code</label>
+                                        <input type="text" class="form-control" id="pincode"
+                                            placeholder="110001" maxlength="6" pattern="[0-9]{6}" required>
+                                        <div class="invalid-feedback">Enter a valid 6-digit PIN code.</div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="checkout-card">
+                            <h5><span class="step-badge">2</span>Payment Method</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="payment-option d-flex align-items-center gap-3 w-100">
+                                        <input type="radio" name="paymentMethod" value="upi" class="form-check-input" checked>
+                                        <i class="bi bi-phone fs-4 text-primary"></i>
+                                        <div>
+                                            <div class="fw-bold">UPI</div>
+                                            <div class="text-secondary small">PhonePe, GPay, Paytm</div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="payment-option d-flex align-items-center gap-3 w-100">
+                                        <input type="radio" name="paymentMethod" value="card" class="form-check-input">
+                                        <i class="bi bi-credit-card fs-4 text-primary"></i>
+                                        <div>
+                                            <div class="fw-bold">Debit / Credit Card</div>
+                                            <div class="text-secondary small">Visa, Mastercard, RuPay</div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="payment-option d-flex align-items-center gap-3 w-100">
+                                        <input type="radio" name="paymentMethod" value="netbanking" class="form-check-input">
+                                        <i class="bi bi-bank fs-4 text-primary"></i>
+                                        <div>
+                                            <div class="fw-bold">Net Banking</div>
+                                            <div class="text-secondary small">All major banks</div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="payment-option d-flex align-items-center gap-3 w-100">
+                                        <input type="radio" name="paymentMethod" value="cod" class="form-check-input">
+                                        <i class="bi bi-cash-coin fs-4 text-primary"></i>
+                                        <div>
+                                            <div class="fw-bold">Cash on Delivery</div>
+                                            <div class="text-secondary small">Pay when you receive</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Order Summary -->
+                    <div class="col-lg-4">
+                        <div class="summary-card">
+                            <div class="summary-header">
+                                <i class="bi bi-bag-check me-2"></i>Order Summary
+                            </div>
+                            <div class="p-4">
+                                <div id="orderItemsList" class="mb-3"></div>
+                                <hr>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Subtotal</span>
+                                    <span id="checkoutSubtotal">₹0</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Tax (10%)</span>
+                                    <span id="checkoutTax">₹0</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Delivery</span>
+                                    <span class="text-success">Free</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between fw-bold mb-4">
+                                    <span>Total</span>
+                                    <span id="checkoutTotal" class="fs-5">₹0</span>
+                                </div>
+                                <button id="placeOrderBtn" class="btn btn-dark w-100 btn-lg">
+                                    <i class="bi bi-lock me-2"></i>Place Order
+                                </button>
+                                <p class="text-secondary small text-center mt-3 mb-0">
+                                    <i class="bi bi-shield-check me-1 text-success"></i>Secure & encrypted checkout
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message (hidden initially) -->
+            <div id="orderSuccess" class="d-none">
+                <div class="checkout-card text-center py-5">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size:3rem;"></i>
+                    <h3 class="mt-3 fw-bold">Order Placed Successfully!</h3>
+                    <p class="text-secondary mb-4">Thank you for shopping with Luxora. We are processing your order and you will receive a confirmation shortly.</p>
+                    <a href="index.html" class="btn btn-dark me-2">Continue Shopping</a>
+                    <a href="categories.html" class="btn btn-outline-secondary">Browse More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer — matches Luxora style -->
+    <footer class="pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h4 class="text-white">Luxora</h4>
+                    <p>A modern eCommerce UI built with Bootstrap, custom CSS, and JavaScript-powered interactions.</p>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="text-white">Shop</h6>
+                    <a href="index.html" class="d-block mb-2">Home</a>
+                    <a href="product.html" class="d-block mb-2">Products</a>
+                    <a href="categories.html" class="d-block mb-2">Categories</a>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white">Support</h6>
+                    <a href="contact.html" class="d-block mb-2">Contact Us</a>
+                    <a href="#" class="d-block mb-2">Returns</a>
+                    <a href="#" class="d-block mb-2">Privacy Policy</a>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white">Contact</h6>
+                    <p class="mb-1">support@luxora.com</p>
+                    <p class="mb-0">+91 98765 43210</p>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <p class="mb-0 text-center">© 2026 Luxora. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const CART_STORAGE_KEY = "luxoraCartItems";
+
+        function getCartItems() {
+            return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+        }
+
+        function formatCurrency(amount) {
+            return "₹" + amount.toLocaleString("en-IN");
+        }
+
+        function updateCartBadge() {
+            const count = getCartItems().reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const badge = document.getElementById("cartCount");
+            if (badge) badge.textContent = count;
+        }
+
+        function renderOrderSummary() {
+            const cartItems = getCartItems();
+            const orderItemsList = document.getElementById("orderItemsList");
+            let subtotal = 0;
+
+            if (cartItems.length === 0) {
+                document.getElementById("checkoutForm").classList.add("d-none");
+                document.getElementById("emptyCartMessage").classList.remove("d-none");
+                return;
+            }
+
+            orderItemsList.innerHTML = cartItems.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                return `
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <img src="${item.image || 'https://via.placeholder.com/52'}" class="order-item-img" alt="${item.title}">
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold small">${item.title}</div>
+                            <div class="text-secondary small">Qty: ${item.quantity}</div>
+                        </div>
+                        <span class="fw-bold small">${formatCurrency(itemTotal)}</span>
+                    </div>
+                `;
+            }).join("");
+
+            const tax = Math.round(subtotal * 0.1);
+            const total = subtotal + tax;
+
+            document.getElementById("checkoutSubtotal").textContent = formatCurrency(subtotal);
+            document.getElementById("checkoutTax").textContent = formatCurrency(tax);
+            document.getElementById("checkoutTotal").textContent = formatCurrency(total);
+        }
+
+        function placeOrder() {
+            const shippingForm = document.getElementById("shippingForm");
+            shippingForm.classList.add("was-validated");
+
+            if (!shippingForm.checkValidity()) {
+                shippingForm.querySelector(":invalid").scrollIntoView({ behavior: "smooth", block: "center" });
+                return;
+            }
+
+            localStorage.removeItem(CART_STORAGE_KEY);
+
+            document.getElementById("checkoutForm").classList.add("d-none");
+            document.getElementById("emptyCartMessage").classList.add("d-none");
+            document.getElementById("orderSuccess").classList.remove("d-none");
+
+            // Reset badge
+            const badge = document.getElementById("cartCount");
+            if (badge) badge.textContent = "0";
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            updateCartBadge();
+            renderOrderSummary();
+
+            const placeOrderBtn = document.getElementById("placeOrderBtn");
+            if (placeOrderBtn) {
+                placeOrderBtn.addEventListener("click", placeOrder);
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

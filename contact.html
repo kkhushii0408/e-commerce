@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Luxora</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #475569;
+            --accent: #0d6efd;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #198754;
+            --danger: #dc3545;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", sans-serif;
+            background: #f5f7fb;
+            color: var(--primary);
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary) !important;
+        }
+
+        .nav-link {
+            color: #334155 !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent) !important;
+        }
+
+        .page-banner {
+            background: linear-gradient(135deg, #eef4ff, #f8fbff);
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-banner h1 {
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .page-banner p {
+            color: #64748b;
+            max-width: 1500px;
+        }
+
+        .contact-card,
+        .info-card {
+            background: #fff;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 14px 40px rgba(15, 23, 42, .08);
+        }
+
+        .contact-card {
+            padding: 32px;
+        }
+
+        .info-card {
+            padding: 28px 30px;
+            height: 100%;
+        }
+
+        .info-card .icon-box {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: #eff6ff;
+            color: var(--accent);
+            margin-right: 14px;
+            font-size: 1.4rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 700;
+            margin-bottom: .25rem;
+        }
+
+        .info-text {
+            color: #64748b;
+            margin-bottom: 0;
+        }
+
+        .form-result {
+            border-radius: 18px;
+            padding: 1rem 1.2rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, .15);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            border: none;
+        }
+
+        .contact-footer {
+            padding: 3rem 0 1rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="bi bi-bag-check me-2"></i>Luxora</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-outline-dark position-relative" href="wishlist.html">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a class="btn btn-dark position-relative" href="cart.html">
+                        <i class="bi bi-cart3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-banner text-center">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Have a question or need help? Send us a message and our customer care team will respond fast.</p>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4 align-items-start">
+                <div class="col-lg-6">
+                    <div class="contact-card">
+                        <h2 class="mb-3">Send a message</h2>
+                        <p class="text-secondary mb-4">Fill out the form and we will get back to you within 24 hours.</p>
+
+                        <form id="contactForm" novalidate>
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" placeholder="Jane Doe" required>
+                                <div class="invalid-feedback">Please enter your name.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailAddress" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="emailAddress" placeholder="you@example.com" required>
+                                <div class="invalid-feedback">Please enter a valid email.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" placeholder="Order question" required>
+                                <div class="invalid-feedback">Please add a subject.</div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="messageText" class="form-label">Message</label>
+                                <textarea class="form-control" id="messageText" rows="6" placeholder="How can we help?" required></textarea>
+                                <div class="invalid-feedback">Please enter your message.</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg px-5">Send Message</button>
+                        </form>
+
+                        <div id="formResult" class="form-result mt-4 d-none"></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="info-card">
+                        <h4 class="mb-4">Need immediate help?</h4>
+                        <div class="info-item">
+                            <div class="icon-box"><i class="bi bi-geo-alt"></i></div>
+                            <div>
+                                <div class="info-label">Visit Us</div>
+                                <p class="info-text">123 Luxora Street, New Delhi 110001</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="icon-box"><i class="bi bi-envelope"></i></div>
+                            <div>
+                                <div class="info-label">Email Us</div>
+                                <p class="info-text">support@luxora.com</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="icon-box"><i class="bi bi-telephone"></i></div>
+                            <div>
+                                <div class="info-label">Call Us</div>
+                                <p class="info-text">+91 98765 43210</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="icon-box"><i class="bi bi-clock"></i></div>
+                            <div>
+                                <div class="info-label">Support Hours</div>
+                                <p class="info-text">Mon - Fri, 9:00 AM - 7:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="info-card text-center p-4">
+                        <div class="mb-3 text-primary display-6"><i class="bi bi-chat-dots"></i></div>
+                        <h5>Live Chat</h5>
+                        <p class="text-secondary">Chat with our support team for quick answers and order help.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card text-center p-4">
+                        <div class="mb-3 text-primary display-6"><i class="bi bi-truck"></i></div>
+                        <h5>Order Assistance</h5>
+                        <p class="text-secondary">Need help with shipping or returns? We're here to guide you.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card text-center p-4">
+                        <div class="mb-3 text-primary display-6"><i class="bi bi-shield-check"></i></div>
+                        <h5>Secure Support</h5>
+                        <p class="text-secondary">All messages are handled securely and privately.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="contact-footer text-center">
+        <div class="container">
+            <p class="mb-0">© 2026 Luxora. Built to help you shop with confidence.</p>
+        </div>
+    </footer>
+
+    <script>
+        const CONTACT_STORAGE_KEY = "luxoraContactMessages";
+
+        function getStoredMessages() {
+            return JSON.parse(localStorage.getItem(CONTACT_STORAGE_KEY) || "[]");
+        }
+
+        function saveContactMessage(message) {
+            const messages = getStoredMessages();
+            messages.push(message);
+            localStorage.setItem(CONTACT_STORAGE_KEY, JSON.stringify(messages));
+        }
+
+        function showResult(type, text) {
+            const result = document.getElementById("formResult");
+            result.className = `form-result mt-4 alert alert-${type}`;
+            result.textContent = text;
+            result.classList.remove("d-none");
+        }
+
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const form = event.target;
+            form.classList.add("was-validated");
+
+            const fullName = document.getElementById("fullName");
+            const emailAddress = document.getElementById("emailAddress");
+            const subject = document.getElementById("subject");
+            const messageText = document.getElementById("messageText");
+
+            if (!form.checkValidity()) {
+                showResult("danger", "Please complete all required fields before sending.");
+                return;
+            }
+
+            const newMessage = {
+                name: fullName.value.trim(),
+                email: emailAddress.value.trim(),
+                subject: subject.value.trim(),
+                message: messageText.value.trim(),
+                submittedAt: new Date().toISOString()
+            };
+
+            saveContactMessage(newMessage);
+            form.reset();
+            form.classList.remove("was-validated");
+            showResult("success", "Thanks for reaching out! Your message has been received.");
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const cartBadge = document.getElementById("cartCount");
+            if (cartBadge) {
+                const cart = JSON.parse(localStorage.getItem("luxoraCartItems") || "[]");
+                cartBadge.textContent = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

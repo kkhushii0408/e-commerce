@@ -1,0 +1,257 @@
+/*
+ * Luxora E-Commerce — Shared Stylesheet
+ * Used across: index, product, categories, cart, checkout, wishlist, contact
+ */
+
+/* ─── CSS Variables ──────────────────────────────────────────── */
+:root {
+    --primary:   #0f172a;
+    --secondary: #334155;
+    --accent:    #0d6efd;
+    --light:     #f8fafc;
+    --border:    #e2e8f0;
+    --success:   #198754;
+    --danger:    #dc3545;
+    --warning:   #f59e0b;
+    --bg:        #f5f7fb;
+}
+
+/* ─── Reset / Base ───────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--primary);
+    margin: 0;
+}
+
+/* ─── Navbar ─────────────────────────────────────────────────── */
+.navbar {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: .3px;
+    color: var(--primary) !important;
+}
+
+.navbar-toggler {
+    border-color: var(--border);
+}
+
+.nav-link {
+    color: var(--secondary) !important;
+    font-weight: 500;
+    margin: 0 .2rem;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--accent) !important;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+footer {
+    background: var(--primary);
+    color: #cbd5e1;
+}
+
+footer a {
+    color: #cbd5e1;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+footer p {
+    color: #94a3b8;
+    margin-bottom: 0;
+}
+
+/* ─── Cart Badge ─────────────────────────────────────────────── */
+#cartCount,
+#navCartCount {
+    font-size: .72rem;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    line-height: 18px;
+    text-align: center;
+}
+
+/* ─── Shared Badge ───────────────────────────────────────────── */
+.badge-soft {
+    display: inline-block;
+    font-size: .75rem;
+    padding: .45rem .75rem;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 700;
+}
+
+/* ─── Shared Price Styles ────────────────────────────────────── */
+.price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.old-price {
+    color: #94a3b8;
+    text-decoration: line-through;
+    font-size: .95rem;
+}
+
+.save-badge {
+    background: #ecfdf3;
+    color: #15803d;
+    font-size: .82rem;
+    font-weight: 700;
+    padding: .3rem .65rem;
+    border-radius: 999px;
+}
+
+/* ─── Rating Stars ───────────────────────────────────────────── */
+.rating {
+    color: var(--warning);
+    font-size: .9rem;
+}
+
+/* ─── Product Card ───────────────────────────────────────────── */
+.product-card {
+    background: #fff;
+    border: none;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    transition: transform .3s ease, box-shadow .3s ease;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, .12);
+}
+
+.product-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    transition: transform .35s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.04);
+}
+
+/* ─── Wishlist Button (on cards) ─────────────────────────────── */
+.wishlist-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary);
+    transition: color .2s ease;
+}
+
+.wishlist-btn.active,
+.wishlist-btn:hover {
+    color: var(--danger);
+}
+
+/* ─── Section Titles ─────────────────────────────────────────── */
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: .5rem;
+}
+
+.section-subtitle {
+    color: #64748b;
+    margin-bottom: 2rem;
+}
+
+/* ─── Filter / Category Pills ────────────────────────────────── */
+.filter-btn,
+.category-pill {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--secondary);
+    padding: .55rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    transition: background .25s, color .25s, border-color .25s;
+    cursor: pointer;
+}
+
+.filter-btn.active,
+.filter-btn:hover,
+.category-pill.active,
+.category-pill:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+/* ─── Toast Notification ─────────────────────────────────────── */
+.toast-box,
+.toast-wrap {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 1080;
+    min-width: 260px;
+}
+
+/* ─── Utility ────────────────────────────────────────────────── */
+.hidden {
+    display: none !important;
+}
+
+/* ─── Page Banner (categories / contact) ────────────────────── */
+.page-banner {
+    background: linear-gradient(135deg, #eef4ff, #f8fbff);
+    padding: 50px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.page-banner h1 {
+    font-weight: 800;
+    margin-bottom: .5rem;
+}
+
+/* ─── Form Focus ─────────────────────────────────────────────── */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, .15);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .product-card img {
+        height: 220px;
+    }
+}

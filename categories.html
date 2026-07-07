@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxora - Categories</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #475569;
+            --accent: #0d6efd;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #198754;
+            --danger: #dc3545;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", sans-serif;
+            background: #f5f7fb;
+            color: var(--primary);
+        }
+
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary) !important;
+        }
+
+        .nav-link {
+            color: #334155 !important;
+            font-weight: 500;
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            color: var(--accent) !important;
+        }
+
+        .page-banner {
+            background: linear-gradient(135deg, #eef4ff, #f8fbff);
+            padding: 50px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-banner h1 {
+            font-weight: 800;
+            margin-bottom: .5rem;
+        }
+
+        .breadcrumb {
+            margin-bottom: 0;
+        }
+
+        .sidebar-card,
+        .toolbar,
+        .product-card {
+            background: #fff;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+        }
+
+        .sidebar-card {
+            padding: 24px;
+            position: sticky;
+            top: 90px;
+        }
+
+        .sidebar-title {
+            font-weight: 800;
+            margin-bottom: 18px;
+            font-size: 1.1rem;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group h6 {
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .form-check {
+            margin-bottom: 10px;
+        }
+
+        .toolbar {
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .category-pill {
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 999px;
+            padding: .5rem 1rem;
+            font-weight: 600;
+            transition: .25s ease;
+            cursor: pointer;
+        }
+
+        .category-pill.active,
+        .category-pill:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .product-card {
+            overflow: hidden;
+            transition: .3s ease;
+            height: 100%;
+            position: relative;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .95);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+            color: #111827;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .wishlist-btn.active {
+            color: var(--danger);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(15, 23, 42, .12);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .product-card .card-body {
+            padding: 1.2rem;
+        }
+
+        .badge-soft {
+            display: inline-block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: .4rem .75rem;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .price {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: .9rem;
+        }
+
+        .rating {
+            color: var(--warning);
+            font-size: .9rem;
+        }
+
+        .empty-state {
+            background: #fff;
+            border-radius: 20px;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+        }
+
+        .pagination .page-link {
+            border: none;
+            color: var(--primary);
+            border-radius: 12px;
+            margin: 0 4px;
+            padding: .65rem .95rem;
+            font-weight: 600;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            margin-top: 60px;
+        }
+
+        .results-text {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        @media(max-width:991px) {
+            .sidebar-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="bi bi-bag-check me-2"></i>Luxora</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-outline-dark position-relative" href="wishlist.html">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a class="btn btn-dark position-relative" href="cart.html">
+                        <i class="bi bi-cart3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-banner">
+        <div class="container">
+            <h1>Shop by Category</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <div class="col-lg-3">
+                    <div class="sidebar-card">
+                        <h5 class="sidebar-title">Filters</h5>
+
+                        <div class="filter-group">
+                            <h6>Search</h6>
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search products">
+                        </div>
+
+                        <div class="filter-group">
+                            <h6>Category</h6>
+                            <div class="form-check">
+                                <input class="form-check-input category-check" type="radio" name="category" value="all"
+                                    id="catAll" checked>
+                                <label class="form-check-label" for="catAll">All</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input category-check" type="radio" name="category"
+                                    value="electronics" id="catElectronics">
+                                <label class="form-check-label" for="catElectronics">Electronics</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input category-check" type="radio" name="category"
+                                    value="fashion" id="catFashion">
+                                <label class="form-check-label" for="catFashion">Fashion</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input category-check" type="radio" name="category"
+                                    value="beauty" id="catBeauty">
+                                <label class="form-check-label" for="catBeauty">Beauty</label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h6>Price Range</h6>
+                            <select id="priceFilter" class="form-select">
+                                <option value="all">All Prices</option>
+                                <option value="0-1999">Under ₹2,000</option>
+                                <option value="2000-4999">₹2,000 - ₹4,999</option>
+                                <option value="5000-9999">₹5,000 - ₹9,999</option>
+                                <option value="10000-25000">₹10,000 & Above</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <h6>Rating</h6>
+                            <select id="ratingFilter" class="form-select">
+                                <option value="all">All Ratings</option>
+                                <option value="4.5">4.5 & above</option>
+                                <option value="4.0">4.0 & above</option>
+                            </select>
+                        </div>
+
+                        <button id="clearFilters" class="btn btn-outline-dark w-100">Clear Filters</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="toolbar">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-7">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button class="category-pill active" data-category="all">All</button>
+                                    <button class="category-pill" data-category="electronics">Electronics</button>
+                                    <button class="category-pill" data-category="fashion">Fashion</button>
+                                    <button class="category-pill" data-category="beauty">Beauty</button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="d-flex gap-2">
+                                    <select id="sortSelect" class="form-select">
+                                        <option value="default">Sort by</option>
+                                        <option value="low">Price: Low to High</option>
+                                        <option value="high">Price: High to Low</option>
+                                        <option value="rating">Top Rated</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <h4 class="mb-0 fw-bold">All Products</h4>
+                        <span class="results-text" id="resultsCount">Showing 0 products</span>
+                    </div>
+
+                    <div class="row g-4" id="productGrid"></div>
+
+                    <nav class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h4 class="text-white">Luxora</h4>
+                    <p>Professional eCommerce category browsing page with filters and modern layout.</p>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="text-white">Links</h6>
+                    <a href="index.html" class="d-block mb-2 text-decoration-none text-light">Home</a>
+                    <a href="categories.html" class="d-block mb-2 text-decoration-none text-light">Categories</a>
+                    <a href="product.html" class="d-block mb-2 text-decoration-none text-light">Product</a>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white">Support</h6>
+                    <a href="#" class="d-block mb-2 text-decoration-none text-light">Help Center</a>
+                    <a href="#" class="d-block mb-2 text-decoration-none text-light">Returns</a>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white">Contact</h6>
+                    <p class="mb-1">support@luxora.com</p>
+                    <p class="mb-0">+91 98765 43210</p>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <p class="mb-0 text-center">© 2026 Luxora. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const products = [
+            // ── Electronics ──────────────────────────────────────────────
+            {
+                id: 1,
+                title: "Smart Watch Pro",
+                category: "electronics",
+                price: 12999,
+                oldPrice: 14999,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&auto=format&fit=crop",
+                desc: "Premium smartwatch with health tracking."
+            },
+            {
+                id: 2,
+                title: "Wireless Headphones",
+                category: "electronics",
+                price: 8499,
+                oldPrice: 9999,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop",
+                desc: "Immersive audio with premium comfort."
+            },
+            {
+                id: 5,
+                title: "Bluetooth Speaker",
+                category: "electronics",
+                price: 2999,
+                oldPrice: 3499,
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&auto=format&fit=crop",
+                desc: "Portable sound with rich bass response."
+            },
+            {
+                id: 9,
+                title: "4K Action Camera",
+                category: "electronics",
+                price: 18499,
+                oldPrice: 21999,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&auto=format&fit=crop",
+                desc: "Shoot stunning 4K footage anywhere."
+            },
+            {
+                id: 10,
+                title: "Mechanical Keyboard",
+                category: "electronics",
+                price: 5499,
+                oldPrice: 6499,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&auto=format&fit=crop",
+                desc: "Tactile mechanical switches for fast typing."
+            },
+            {
+                id: 11,
+                title: "Gaming Mouse",
+                category: "electronics",
+                price: 2499,
+                oldPrice: 2999,
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=800&auto=format&fit=crop",
+                desc: "High-DPI precision gaming mouse."
+            },
+            {
+                id: 12,
+                title: "Noise-Cancelling Earbuds",
+                category: "electronics",
+                price: 6999,
+                oldPrice: 8499,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop",
+                desc: "True wireless earbuds with ANC technology."
+            },
+            {
+                id: 13,
+                title: "Laptop Stand",
+                category: "electronics",
+                price: 1799,
+                oldPrice: 2199,
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&auto=format&fit=crop",
+                desc: "Ergonomic aluminium stand for any laptop."
+            },
+
+            // ── Fashion ───────────────────────────────────────────────────
+            {
+                id: 3,
+                title: "Running Shoes",
+                category: "fashion",
+                price: 5999,
+                oldPrice: 6999,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop",
+                desc: "High-performance sports shoes for comfort."
+            },
+            {
+                id: 6,
+                title: "Classic Handbag",
+                category: "fashion",
+                price: 4599,
+                oldPrice: 5299,
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop",
+                desc: "Elegant handbag with modern finish."
+            },
+            {
+                id: 7,
+                title: "Premium Jacket",
+                category: "fashion",
+                price: 6999,
+                oldPrice: 7899,
+                rating: 4.3,
+                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&auto=format&fit=crop",
+                desc: "Stylish outerwear for premium fashion."
+            },
+            {
+                id: 14,
+                title: "Denim Jeans",
+                category: "fashion",
+                price: 2999,
+                oldPrice: 3599,
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&auto=format&fit=crop",
+                desc: "Slim-fit denim jeans for everyday wear."
+            },
+            {
+                id: 15,
+                title: "Casual Polo T-Shirt",
+                category: "fashion",
+                price: 1299,
+                oldPrice: 1699,
+                rating: 4.3,
+                image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&auto=format&fit=crop",
+                desc: "Breathable cotton polo for all occasions."
+            },
+            {
+                id: 16,
+                title: "Aviator Sunglasses",
+                category: "fashion",
+                price: 2199,
+                oldPrice: 2799,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&auto=format&fit=crop",
+                desc: "Classic aviator frames with UV protection."
+            },
+            {
+                id: 17,
+                title: "Leather Wallet",
+                category: "fashion",
+                price: 1899,
+                oldPrice: 2299,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&auto=format&fit=crop",
+                desc: "Genuine leather bifold wallet with card slots."
+            },
+            {
+                id: 18,
+                title: "Sports Cap",
+                category: "fashion",
+                price: 799,
+                oldPrice: 999,
+                rating: 4.2,
+                image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=800&auto=format&fit=crop",
+                desc: "Adjustable unisex cap for outdoor activities."
+            },
+
+            // ── Beauty ────────────────────────────────────────────────────
+            {
+                id: 4,
+                title: "Skincare Kit",
+                category: "beauty",
+                price: 3499,
+                oldPrice: 4299,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&auto=format&fit=crop",
+                desc: "Essential skincare set for everyday glow."
+            },
+            {
+                id: 8,
+                title: "Luxury Perfume",
+                category: "beauty",
+                price: 2799,
+                oldPrice: 3299,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&auto=format&fit=crop",
+                desc: "Long-lasting fragrance with elegant notes."
+            },
+            {
+                id: 19,
+                title: "Hair Dryer Pro",
+                category: "beauty",
+                price: 3999,
+                oldPrice: 4799,
+                rating: 4.5,
+                image: "https://unsplash.com/photos/yutgPvmHxYQ/download?w=800&force=true",
+                desc: "Ionic hair dryer for frizz-free styling."
+            },
+            {
+                id: 20,
+                title: "Lipstick Collection",
+                category: "beauty",
+                price: 1299,
+                oldPrice: 1599,
+                rating: 4.7,
+                image: "https://unsplash.com/photos/mzstXkKH8DI/download?w=800&force=true",
+                desc: "Matte & glossy shades for every mood."
+            },
+            {
+                id: 21,
+                title: "Face Serum",
+                category: "beauty",
+                price: 1799,
+                oldPrice: 2199,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop",
+                desc: "Vitamin C serum for bright, radiant skin."
+            },
+            {
+                id: 22,
+                title: "Makeup Brush Set",
+                category: "beauty",
+                price: 999,
+                oldPrice: 1299,
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&auto=format&fit=crop",
+                desc: "12-piece professional brush set for flawless application."
+            },
+            {
+                id: 23,
+                title: "Nail Polish Set",
+                category: "beauty",
+                price: 699,
+                oldPrice: 899,
+                rating: 4.3,
+                image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&auto=format&fit=crop",
+                desc: "10 trendy shades with long-lasting formula."
+            }
+        ];
+
+        let currentCategory = "all";
+        let currentSearch = "";
+        let currentSort = "default";
+        let currentPrice = "all";
+        let currentRating = "all";
+
+        const productGrid = document.getElementById("productGrid");
+        const resultsCount = document.getElementById("resultsCount");
+        const searchInput = document.getElementById("searchInput");
+        const sortSelect = document.getElementById("sortSelect");
+        const priceFilter = document.getElementById("priceFilter");
+        const ratingFilter = document.getElementById("ratingFilter");
+
+        function formatPrice(price) {
+            return "₹" + price.toLocaleString("en-IN");
+        }
+
+        function renderProducts() {
+            const wishlistItems = getWishlistItems();
+            let filtered = [...products];
+
+            if (currentCategory !== "all") {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            if (currentSearch.trim() !== "") {
+                filtered = filtered.filter(p =>
+                    p.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    p.desc.toLowerCase().includes(currentSearch.toLowerCase())
+                );
+            }
+
+            if (currentPrice !== "all") {
+                const [min, max] = currentPrice.split("-").map(Number);
+                filtered = filtered.filter(p => p.price >= min && p.price <= max);
+            }
+
+            if (currentRating !== "all") {
+                filtered = filtered.filter(p => p.rating >= parseFloat(currentRating));
+            }
+
+            if (currentSort === "low") {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (currentSort === "high") {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (currentSort === "rating") {
+                filtered.sort((a, b) => b.rating - a.rating);
+            }
+
+            resultsCount.textContent = "Showing " + filtered.length + " product(s)";
+
+            if (filtered.length === 0) {
+                productGrid.innerHTML = `
+          <div class="col-12">
+            <div class="empty-state">
+              <i class="bi bi-search fs-1 text-secondary"></i>
+              <h4 class="mt-3">No products found</h4>
+              <p class="text-secondary mb-0">Try changing your search or filter options.</p>
+            </div>
+          </div>
+        `;
+                return;
+            }
+
+            productGrid.innerHTML = filtered.map(product => `
+        <div class="col-md-6 col-lg-4">
+          <div class="card product-card">
+            <img src="${product.image}" alt="${product.title}">
+            <button class="wishlist-btn ${wishlistItems.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist(this, ${product.id})">
+              <i class="bi ${wishlistItems.includes(product.id) ? 'bi-heart-fill' : 'bi-heart'}"></i>
+            </button>
+            <div class="card-body">
+              <span class="badge-soft text-capitalize">${product.category}</span>
+              <h5 class="fw-bold mt-3">${product.title}</h5>
+              <p class="text-secondary small mb-2">${product.desc}</p>
+              <div class="rating mb-2">
+                <i class="bi bi-star-fill"></i> ${product.rating}
+              </div>
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="price">${formatPrice(product.price)}</span>
+                <span class="old-price">${formatPrice(product.oldPrice)}</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-dark flex-grow-1" onclick="addToCartAndGoToCart(${product.id})">Go to Cart</button>
+                <button class="btn btn-outline-dark" onclick="addToCart(${product.id})">
+                  <i class="bi bi-cart-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+        }
+
+        const CART_STORAGE_KEY = "luxoraCartItems";
+        const WISHLIST_STORAGE_KEY = "luxoraWishlistItems";
+
+        function getCartItems() {
+            return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+        }
+
+        function getWishlistItems() {
+            return JSON.parse(localStorage.getItem(WISHLIST_STORAGE_KEY) || "[]");
+        }
+
+        function setWishlistItems(items) {
+            localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
+        }
+
+        function setCartItems(items) {
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+        }
+
+        function updateCartBadge() {
+            const cartCountEl = document.getElementById("cartCount");
+            const totalCount = getCartItems().reduce((sum, item) => sum + item.quantity, 0);
+            cartCountEl.textContent = totalCount;
+        }
+
+        function toggleWishlist(button, productId) {
+            const wishlistItems = new Set(getWishlistItems());
+            if (wishlistItems.has(productId)) {
+                wishlistItems.delete(productId);
+                button.classList.remove("active");
+            } else {
+                wishlistItems.add(productId);
+                button.classList.add("active");
+            }
+            setWishlistItems([...wishlistItems]);
+            const icon = button.querySelector("i");
+            if (icon) {
+                icon.classList.toggle("bi-heart");
+                icon.classList.toggle("bi-heart-fill");
+            }
+        }
+
+        function addToCart(productId) {
+            const item = products.find(p => p.id === productId);
+            if (!item) return;
+
+            const cartItems = getCartItems();
+            const existing = cartItems.find(c => c.id === productId);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cartItems.push({
+                    id: item.id,
+                    title: item.title,
+                    price: item.price,
+                    image: item.image,
+                    quantity: 1
+                });
+            }
+
+            setCartItems(cartItems);
+            updateCartBadge();
+        }
+
+        function addToCartAndGoToCart(productId) {
+            addToCart(productId);
+            window.location.href = "cart.html";
+        }
+
+        document.querySelectorAll(".category-pill").forEach(btn => {
+            btn.addEventListener("click", function () {
+                document.querySelectorAll(".category-pill").forEach(b => b.classList.remove("active"));
+                this.classList.add("active");
+                currentCategory = this.dataset.category;
+                document.querySelector(`input[value="${currentCategory}"]`).checked = true;
+                renderProducts();
+            });
+        });
+
+        document.querySelectorAll(".category-check").forEach(radio => {
+            radio.addEventListener("change", function () {
+                currentCategory = this.value;
+                document.querySelectorAll(".category-pill").forEach(b => {
+                    b.classList.toggle("active", b.dataset.category === currentCategory);
+                });
+                renderProducts();
+            });
+        });
+
+        searchInput.addEventListener("input", function () {
+            currentSearch = this.value;
+            renderProducts();
+        });
+
+        sortSelect.addEventListener("change", function () {
+            currentSort = this.value;
+            renderProducts();
+        });
+
+        priceFilter.addEventListener("change", function () {
+            currentPrice = this.value;
+            renderProducts();
+        });
+
+        ratingFilter.addEventListener("change", function () {
+            currentRating = this.value;
+            renderProducts();
+        });
+
+        document.getElementById("clearFilters").addEventListener("click", function () {
+            currentCategory = "all";
+            currentSearch = "";
+            currentSort = "default";
+            currentPrice = "all";
+            currentRating = "all";
+
+            searchInput.value = "";
+            sortSelect.value = "default";
+            priceFilter.value = "all";
+            ratingFilter.value = "all";
+            document.getElementById("catAll").checked = true;
+
+            document.querySelectorAll(".category-pill").forEach(b => {
+                b.classList.toggle("active", b.dataset.category === "all");
+            });
+
+            renderProducts();
+        });
+
+        renderProducts();
+        updateCartBadge();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - Luxora</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: "Inter", "Segoe UI", sans-serif;
+            background: #f5f7fb;
+            color: #0f172a;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #0f172a !important;
+        }
+
+        .nav-link {
+            color: #334155 !important;
+            font-weight: 500;
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            color: #0d6efd !important;
+        }
+
+        .wishlist-card {
+            border: none;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(15, 23, 42, .08);
+        }
+
+        .wishlist-description h5 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .wishlist-description p {
+            margin-bottom: 0.5rem;
+        }
+
+        .wishlist-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .wishlist-actions {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .empty-state {
+            background: #fff;
+            border-radius: 20px;
+            padding: 60px 30px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+            max-width: 560px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="bi bi-bag-check me-2"></i>Luxora</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-outline-dark position-relative active" href="wishlist.html">
+                        <i class="bi bi-heart-fill"></i>
+                    </a>
+                    <a class="btn btn-dark position-relative" href="cart.html">
+                        <i class="bi bi-cart3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="py-5">
+        <div class="container">
+            <h1 class="mb-4">Your Wishlist</h1>
+            <div id="wishlistContainer"></div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center small text-muted">© 2026 Luxora. All rights reserved.</div>
+    </footer>
+
+    <script>
+        const WISHLIST_STORAGE_KEY = "luxoraWishlistItems";
+        const CART_STORAGE_KEY = "luxoraCartItems";
+
+        const products = [
+            { id: 1, title: "Smart Watch Pro", price: 12999, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800", category: "electronics" },
+            { id: 2, title: "Wireless Headphones", price: 8499, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800", category: "electronics" },
+            { id: 3, title: "Running Shoes", price: 5999, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800", category: "fashion" },
+            { id: 4, title: "Skincare Kit", price: 3499, image: "https://images.unsplash.com/photo-1586495777744-4413f21002fa?w=800", category: "beauty" },
+            { id: 5, title: "Bluetooth Speaker", price: 2999, image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=800", category: "electronics" },
+            { id: 6, title: "Classic Handbag", price: 4599, image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800", category: "fashion" },
+            { id: 7, title: "Premium Jacket", price: 6999, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800", category: "fashion" },
+            { id: 8, title: "Luxury Perfume", price: 2799, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=800", category: "beauty" }
+        ];
+
+        function getWishlistItems() {
+            return JSON.parse(localStorage.getItem(WISHLIST_STORAGE_KEY) || "[]");
+        }
+
+        function setWishlistItems(items) {
+            localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
+        }
+
+        function getCartItems() {
+            return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+        }
+
+        function setCartItems(items) {
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+        }
+
+        function updateCartBadge() {
+            const cartCountEl = document.getElementById("cartCount");
+            const totalCount = getCartItems().reduce((sum, item) => sum + item.quantity, 0);
+            cartCountEl.textContent = totalCount;
+        }
+
+        function renderWishlist() {
+            const wishlistContainer = document.getElementById("wishlistContainer");
+            const wishlistIds = getWishlistItems();
+            const wishlistProducts = products.filter(p => wishlistIds.includes(p.id));
+
+            if (wishlistProducts.length === 0) {
+                wishlistContainer.innerHTML = `
+                    <div class="empty-state text-center">
+                        <i class="bi bi-heart fs-1 text-secondary"></i>
+                        <h4 class="mt-3">Your wishlist is empty</h4>
+                        <p class="text-secondary">Tap the heart icon on product cards to save items for later.</p>
+                        <a href="categories.html" class="btn btn-primary mt-3">Browse Products</a>
+                    </div>
+                `;
+                return;
+            }
+
+            wishlistContainer.innerHTML = wishlistProducts.map(product => `
+                <div class="card wishlist-card mb-4">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-md-3">
+                            <img src="${product.image}" alt="${product.title}" class="wishlist-image">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 wishlist-description">
+                                <h5>${product.title}</h5>
+                                <p class="text-secondary text-capitalize">${product.category}</p>
+                                <p class="mb-0 fw-semibold">₹${product.price.toLocaleString("en-IN")}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-4 wishlist-actions">
+                                <button class="btn btn-outline-danger btn-sm" onclick="removeFromWishlist(${product.id})">Remove</button>
+                                <button class="btn btn-primary btn-sm" onclick="addToCartFromWishlist(${product.id})">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function removeFromWishlist(productId) {
+            const items = getWishlistItems().filter(id => id !== productId);
+            setWishlistItems(items);
+            renderWishlist();
+        }
+
+        function addToCartFromWishlist(productId) {
+            const item = products.find(p => p.id === productId);
+            if (!item) return;
+
+            const cartItems = getCartItems();
+            const existing = cartItems.find(c => c.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cartItems.push({ id: item.id, title: item.title, price: item.price, image: item.image, quantity: 1 });
+            }
+            setCartItems(cartItems);
+            updateCartBadge();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            updateCartBadge();
+            renderWishlist();
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxora - Product Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #475569;
+            --accent: #0d6efd;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --danger: #dc3545;
+            --success: #198754;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", sans-serif;
+            background: #f5f7fb;
+            color: var(--primary);
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 18px rgba(15, 23, 42, .05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary) !important;
+        }
+
+        .nav-link {
+            color: #334155 !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent) !important;
+        }
+
+        .product-section {
+            padding: 50px 0;
+        }
+
+        .product-gallery,
+        .product-info,
+        .detail-box,
+        .related-card {
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+            border: none;
+        }
+
+        .product-gallery {
+            padding: 20px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 18px;
+            background: #f8fafc;
+        }
+
+        .thumb-img {
+            width: 100%;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 14px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: .25s ease;
+        }
+
+        .thumb-img.active,
+        .thumb-img:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .product-info {
+            padding: 30px;
+        }
+
+        .brand-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: .45rem .8rem;
+            border-radius: 999px;
+            font-size: .8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .product-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: .75rem;
+        }
+
+        .rating {
+            color: var(--warning);
+            font-size: .95rem;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-left: 10px;
+        }
+
+        .save-badge {
+            background: #ecfdf3;
+            color: #15803d;
+            font-size: .85rem;
+            font-weight: 700;
+            padding: .35rem .7rem;
+            border-radius: 999px;
+            margin-left: 10px;
+        }
+
+        .product-desc {
+            color: var(--secondary);
+            line-height: 1.7;
+        }
+
+        .option-title {
+            font-weight: 700;
+            margin-bottom: .8rem;
+        }
+
+        .size-btn,
+        .color-btn {
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 12px;
+            padding: .65rem 1rem;
+            font-weight: 600;
+            transition: .25s ease;
+        }
+
+        .size-btn.active,
+        .size-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .color-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            padding: 0;
+            position: relative;
+        }
+
+        .color-btn.active::after {
+            content: "";
+            position: absolute;
+            inset: 5px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+        }
+
+        .qty-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            width: max-content;
+            background: #fff;
+        }
+
+        .qty-btn {
+            width: 46px;
+            height: 46px;
+            border: none;
+            background: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .qty-input {
+            width: 60px;
+            height: 46px;
+            text-align: center;
+            border: none;
+            outline: none;
+            font-weight: 700;
+        }
+
+        .action-btn {
+            padding: .9rem 1.4rem;
+            border-radius: 14px;
+            font-weight: 700;
+        }
+
+        .meta-list li {
+            color: var(--secondary);
+            margin-bottom: .55rem;
+        }
+
+        .detail-box {
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 12px;
+            padding: .75rem 1rem;
+            font-weight: 700;
+            color: #334155 !important;
+        }
+
+        .nav-pills .nav-link.active {
+            background: var(--primary) !important;
+            color: #fff !important;
+        }
+
+        .related-card {
+            overflow: hidden;
+            transition: .3s ease;
+            height: 100%;
+        }
+
+        .related-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(15, 23, 42, .12);
+        }
+
+        .related-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .related-card .card-body {
+            padding: 1.2rem;
+        }
+
+        .feature-mini {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, .05);
+            height: 100%;
+        }
+
+        .feature-mini i {
+            font-size: 1.25rem;
+            color: var(--accent);
+        }
+
+        .highlight-row {
+            margin-top: 40px;
+        }
+
+        .highlight-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+            border: 1px solid rgba(15, 23, 42, .08);
+            border-radius: 24px;
+            padding: 1.6rem;
+            transition: transform .25s ease, box-shadow .25s ease;
+            min-height: 220px;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, .12);
+        }
+
+        .highlight-icon {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            border-radius: 18px;
+            background: rgba(13, 110, 253, .12);
+            color: #0d6efd;
+            margin-bottom: 1rem;
+            font-size: 1.35rem;
+        }
+
+        .highlight-card h5 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: .6rem;
+        }
+
+        .highlight-card p {
+            color: #64748b;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            margin-top: 60px;
+        }
+
+        .toast-wrap {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1080;
+        }
+
+        @media (max-width: 768px) {
+            .main-image {
+                height: 320px;
+            }
+
+            .product-title {
+                font-size: 1.7rem;
+            }
+
+            .product-price {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="bi bi-bag-check me-2"></i>Luxora</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="product.html">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-outline-dark position-relative" href="wishlist.html">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a class="btn btn-dark position-relative" href="cart.html">
+                        <i class="bi bi-cart3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="product-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="product-gallery">
+                        <img id="mainProductImage" class="main-image mb-3"
+                            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1000&auto=format&fit=crop"
+                            alt="Smart Watch Pro">
+
+                        <div class="row g-3">
+                            <div class="col-3">
+                                <img class="thumb-img active"
+                                    src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop"
+                                    alt="Smart Watch - front view">
+                            </div>
+                            <div class="col-3">
+                                <img class="thumb-img"
+                                    src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format&fit=crop"
+                                    alt="Smart Watch - side view">
+                            </div>
+                            <div class="col-3">
+                                <img class="thumb-img"
+                                    src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500&auto=format&fit=crop"
+                                    alt="Smart Watch - on wrist">
+                            </div>
+                            <div class="col-3">
+                                <img class="thumb-img"
+                                    src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500&auto=format&fit=crop"
+                                    alt="Smart Watch - detail view">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="product-info">
+                        <span class="brand-badge">Luxora Exclusive</span>
+                        <h1 id="productTitle" class="product-title">Smart Watch Pro X</h1>
+
+                        <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+                            <div id="ratingStars" class="rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <span id="ratingValue" class="text-dark ms-2 fw-semibold">4.8/5</span>
+                            </div>
+                            <span id="reviewsCount" class="text-secondary">126 Reviews</span>
+                            <span id="stockStatus" class="text-success fw-semibold">In Stock</span>
+                        </div>
+
+                        <div class="mb-3 d-flex align-items-center flex-wrap">
+                            <span id="productPrice" class="product-price">₹12,999</span>
+                            <span id="oldPrice" class="old-price">₹15,999</span>
+                            <span id="saveBadge" class="save-badge">Save 19%</span>
+                        </div>
+
+                        <p id="productDesc" class="product-desc">
+                            The Smart Watch Pro X is built for users who want premium design, health insights, smart
+                            notifications, and all-day comfort in one elegant device. It combines performance, style,
+                            and usability for daily life.
+                        </p>
+
+                        <hr>
+
+                        <div class="mb-4">
+                            <h6 class="option-title">Select Size</h6>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="size-btn active">38mm</button>
+                                <button class="size-btn">40mm</button>
+                                <button class="size-btn">42mm</button>
+                                <button class="size-btn">44mm</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="option-title">Select Color</h6>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="color-btn active" style="background:#111827;" data-color="Black"></button>
+                                <button class="color-btn" style="background:#9ca3af;" data-color="Silver"></button>
+                                <button class="color-btn" style="background:#1d4ed8;" data-color="Blue"></button>
+                                <button class="color-btn" style="background:#b45309;" data-color="Gold"></button>
+                            </div>
+                            <small id="selectedColorText" class="text-secondary d-block mt-2">Selected color: Black</small>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="option-title">Selected Options</h6>
+                            <p id="selectedOptions" class="text-secondary mb-0">Size: 38mm · Color: Black</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="option-title">Quantity</h6>
+                            <div class="qty-box">
+                                <button class="qty-btn" id="decreaseQty">-</button>
+                                <input type="text" id="qtyInput" class="qty-input" value="1" readonly>
+                                <button class="qty-btn" id="increaseQty">+</button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2 mb-4">
+                            <button id="addToCartBtn" class="btn btn-dark action-btn">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+                            <button id="buyNowBtn" class="btn btn-primary action-btn">
+                                <i class="bi bi-lightning-charge me-2"></i>Buy Now
+                            </button>
+                            <button id="wishlistBtn" class="btn btn-outline-dark action-btn">
+                                <i class="bi bi-heart me-2"></i>Wishlist
+                            </button>
+                        </div>
+
+                        <ul class="list-unstyled meta-list mb-0">
+                            <li><i class="bi bi-shield-check me-2 text-primary"></i>1 Year Manufacturer Warranty</li>
+                            <li><i class="bi bi-truck me-2 text-primary"></i>Free Delivery on Orders Above ₹999</li>
+                            <li><i class="bi bi-arrow-repeat me-2 text-primary"></i>7 Day Easy Returns</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-4">
+                <div class="col-md-4">
+                    <div class="feature-mini">
+                        <i class="bi bi-patch-check-fill"></i>
+                        <div>
+                            <strong>Premium Quality</strong>
+                            <div class="text-secondary small">Verified and trusted products</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-mini">
+                        <i class="bi bi-headset"></i>
+                        <div>
+                            <strong>Customer Support</strong>
+                            <div class="text-secondary small">Available for every purchase query</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-mini">
+                        <i class="bi bi-credit-card"></i>
+                        <div>
+                            <strong>Secure Payment</strong>
+                            <div class="text-secondary small">Protected checkout experience</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <ul class="nav nav-pills mb-4" id="productTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#descTab"
+                            type="button">Description</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#specTab"
+                            type="button">Specifications</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#reviewTab"
+                            type="button">Reviews</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="descTab">
+                        <p class="text-secondary mb-0">
+                            This smartwatch offers heart-rate monitoring, sleep tracking, app alerts, fitness modes, a
+                            durable build, and a sharp modern display. The interface is simple, responsive, and designed
+                            to give users quick access to essential health and communication features.
+                        </p>
+                    </div>
+
+                    <div class="tab-pane fade" id="specTab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Display: AMOLED HD Touchscreen</li>
+                                    <li class="list-group-item">Battery Life: Up to 5 Days</li>
+                                    <li class="list-group-item">Connectivity: Bluetooth 5.2</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Water Resistance: IP68</li>
+                                    <li class="list-group-item">Sensors: Heart Rate, Sleep, Step Counter</li>
+                                    <li class="list-group-item">Compatibility: Android & iOS</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="reviewTab">
+                        <div class="mb-3">
+                            <strong>Priya S.</strong>
+                            <div class="text-warning mb-1">★★★★★</div>
+                            <p class="text-secondary mb-0">Very stylish and comfortable. The battery backup is
+                                impressive and the display looks premium.</p>
+                        </div>
+                        <hr>
+                        <div>
+                            <strong>Rahul K.</strong>
+                            <div class="text-warning mb-1">★★★★☆</div>
+                            <p class="text-secondary mb-0">Great features for the price. Delivery and packaging were
+                                also very professional.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <h2 class="fw-bold mb-3">Related Products</h2>
+                <p class="text-secondary mb-4">Users also explore these premium options</p>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card related-card">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop"
+                                alt="Wireless Headphones">
+                            <div class="card-body">
+                                <h6 class="fw-bold">Wireless Headphones</h6>
+                                <p class="text-secondary small">High-quality immersive sound experience.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">₹8,499</span>
+                                    <button class="btn btn-sm btn-outline-dark related-view-btn" data-product-id="2">View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card related-card">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop"
+                                alt="Running Shoes">
+                            <div class="card-body">
+                                <h6 class="fw-bold">Running Shoes</h6>
+                                <p class="text-secondary small">Performance wear with modern comfort.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">₹5,999</span>
+                                    <button class="btn btn-sm btn-outline-dark related-view-btn" data-product-id="3">View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card related-card">
+                            <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&auto=format&fit=crop" alt="Bluetooth Speaker">
+                            <div class="card-body">
+                                <h6 class="fw-bold">Bluetooth Speaker</h6>
+                                <p class="text-secondary small">Portable premium speaker with deep bass.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">₹2,999</span>
+                                    <button class="btn btn-sm btn-outline-dark related-view-btn" data-product-id="4">View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card related-card">
+                            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&auto=format&fit=crop" alt="Handbag">
+                            <div class="card-body">
+                                <h6 class="fw-bold">Classic Handbag</h6>
+                                <p class="text-secondary small">Elegant and versatile premium design.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">₹4,599</span>
+                                    <button class="btn btn-sm btn-outline-dark related-view-btn" data-product-id="5">View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h4 class="text-white">Luxora</h4>
+                    <p>Modern product presentation page for a premium eCommerce shopping experience.</p>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="text-white">Links</h6>
+                    <a href="index.html" class="d-block mb-2 text-decoration-none text-light">Home</a>
+                    <a href="product.html" class="d-block mb-2 text-decoration-none text-light">Product</a>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white">Help</h6>
+                    <a href="#" class="d-block mb-2 text-decoration-none text-light">Returns</a>
+                    <a href="#" class="d-block mb-2 text-decoration-none text-light">Support</a>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white">Contact</h6>
+                    <p class="mb-1">support@luxora.com</p>
+                    <p class="mb-0">+91 98765 43210</p>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <p class="mb-0 text-center">© 2026 Luxora. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="toast-wrap">
+        <div id="liveToast" class="toast align-items-center text-bg-dark border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="toastText">Added to cart</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            let cartCount = 0;
+            let quantity = 1;
+            let selectedSize = "38mm";
+            let selectedColor = "Black";
+            let currentProductId = 1;
+
+            const products = [
+                {
+                    id: 1,
+                    title: "Smart Watch Pro X",
+                    category: "electronics",
+                    price: 12999,
+                    oldPrice: 15999,
+                    rating: 4.8,
+                    reviews: 126,
+                    stock: "In Stock",
+                    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1000&auto=format&fit=crop",
+                    thumbnails: [
+                        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500&auto=format&fit=crop"
+                    ],
+                    desc: "The Smart Watch Pro X is built for users who want premium design, health insights, smart notifications, and all-day comfort in one elegant device.",
+                    specs: [
+                        "Display: AMOLED HD Touchscreen",
+                        "Battery Life: Up to 5 Days",
+                        "Connectivity: Bluetooth 5.2",
+                        "Water Resistance: IP68",
+                        "Sensors: Heart Rate, Sleep, Step Counter",
+                        "Compatibility: Android & iOS"
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Wireless Headphones",
+                    category: "electronics",
+                    price: 8499,
+                    oldPrice: 9999,
+                    rating: 4.7,
+                    reviews: 89,
+                    stock: "In Stock",
+                    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1000&auto=format&fit=crop",
+                    thumbnails: [
+                        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1520170350707-b2da59970118?w=500&auto=format&fit=crop"
+                    ],
+                    desc: "Comfortable wireless headphones with over-ear cushioning, strong bass response, and long battery life for all-day listening.",
+                    specs: [
+                        "Driver Size: 40mm",
+                        "Battery Life: Up to 24 Hours",
+                        "Connectivity: Bluetooth 5.1",
+                        "Noise Cancellation: Active",
+                        "Microphone: Built-in",
+                        "Compatibility: Android & iOS"
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Running Shoes",
+                    category: "fashion",
+                    price: 5999,
+                    oldPrice: 6999,
+                    rating: 4.6,
+                    reviews: 74,
+                    stock: "In Stock",
+                    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1000&auto=format&fit=crop",
+                    thumbnails: [
+                        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1539185441755-769473a23570?w=500&auto=format&fit=crop"
+                    ],
+                    desc: "Lightweight running shoes engineered for comfort and support during long-distance training and daily runs.",
+                    specs: [
+                        "Material: Mesh & Rubber",
+                        "Cushioning: Responsive Foam",
+                        "Outsole: Flexible Grip",
+                        "Closure: Lace-up",
+                        "Weight: 270g",
+                        "Use: Running & Training"
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "Bluetooth Speaker",
+                    category: "electronics",
+                    price: 2999,
+                    oldPrice: 3499,
+                    rating: 4.5,
+                    reviews: 53,
+                    stock: "Only 3 left",
+                    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=1000&auto=format&fit=crop",
+                    thumbnails: [
+                        "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1507646227500-4d389b0012be?w=500&auto=format&fit=crop"
+                    ],
+                    desc: "Portable Bluetooth speaker with rich bass, crisp mids, and powerful volume for parties or daily listening.",
+                    specs: [
+                        "Power: 20W",
+                        "Battery Life: Up to 12 Hours",
+                        "Connectivity: Bluetooth 5.0",
+                        "Water Resistance: IPX5",
+                        "Inputs: AUX, USB-C",
+                        "Compatibility: Bluetooth Devices"
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "Classic Handbag",
+                    category: "fashion",
+                    price: 4599,
+                    oldPrice: 5299,
+                    rating: 4.4,
+                    reviews: 32,
+                    stock: "In Stock",
+                    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=1000&auto=format&fit=crop",
+                    thumbnails: [
+                        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1591561954555-607968c989ab?w=500&auto=format&fit=crop",
+                        "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=500&auto=format&fit=crop"
+                    ],
+                    desc: "Elegant handbag with premium finish, designed for everyday use and special occasions.",
+                    specs: [
+                        "Material: Faux Leather",
+                        "Strap: Adjustable",
+                        "Compartments: 3",
+                        "Closure: Zipper",
+                        "Dimensions: 26x18x10cm",
+                        "Use: Daily & Evening"
+                    ]
+                }
+            ];
+
+            const mainProductImage = document.getElementById("mainProductImage");
+            const thumbs = document.querySelectorAll(".thumb-img");
+            const sizeButtons = document.querySelectorAll(".size-btn");
+            const colorButtons = document.querySelectorAll(".color-btn");
+            const selectedColorText = document.getElementById("selectedColorText");
+            const selectedOptionsEl = document.getElementById("selectedOptions");
+            const qtyInput = document.getElementById("qtyInput");
+            const decreaseQty = document.getElementById("decreaseQty");
+            const increaseQty = document.getElementById("increaseQty");
+            const cartCountEl = document.getElementById("cartCount");
+            const wishlistBtn = document.getElementById("wishlistBtn");
+            const addToCartBtn = document.getElementById("addToCartBtn");
+            const buyNowBtn = document.getElementById("buyNowBtn");
+            const toastText = document.getElementById("toastText");
+            const toast = new bootstrap.Toast(document.getElementById("liveToast"));
+            const WISHLIST_STORAGE_KEY = "luxoraWishlistItems";
+            const CART_STORAGE_KEY = "luxoraCartItems";
+            const productTitleEl = document.getElementById("productTitle");
+            const productPriceEl = document.getElementById("productPrice");
+            const oldPriceEl = document.getElementById("oldPrice");
+            const saveBadgeEl = document.getElementById("saveBadge");
+            const ratingValueEl = document.getElementById("ratingValue");
+            const reviewsCountEl = document.getElementById("reviewsCount");
+            const stockStatusEl = document.getElementById("stockStatus");
+            const productDescEl = document.getElementById("productDesc");
+
+            function getWishlistItems() {
+                return JSON.parse(localStorage.getItem(WISHLIST_STORAGE_KEY) || "[]");
+            }
+
+            function setWishlistItems(items) {
+                localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
+            }
+
+            function getCartItems() {
+                return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+            }
+
+            function setCartItems(items) {
+                localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+            }
+
+            function formatCurrency(value) {
+                return "₹" + value.toLocaleString("en-IN");
+            }
+
+            function parseProductIdFromUrl() {
+                const params = new URLSearchParams(window.location.search);
+                const id = parseInt(params.get("id"), 10);
+                return Number.isInteger(id) && products.some(p => p.id === id) ? id : null;
+            }
+
+            function getCurrentProduct() {
+                return products.find(product => product.id === currentProductId) || products[0];
+            }
+
+            function isCurrentProductWishlisted() {
+                return getWishlistItems().includes(currentProductId);
+            }
+
+            function updateWishlistButton() {
+                if (!wishlistBtn) return;
+                const wishlisted = isCurrentProductWishlisted();
+                wishlistBtn.classList.toggle("btn-danger", wishlisted);
+                wishlistBtn.classList.toggle("btn-outline-dark", !wishlisted);
+                wishlistBtn.innerHTML = wishlisted
+                    ? '<i class="bi bi-heart-fill me-2"></i>Wishlisted'
+                    : '<i class="bi bi-heart me-2"></i>Wishlist';
+            }
+
+            function toggleWishlist() {
+                const items = new Set(getWishlistItems());
+                if (items.has(currentProductId)) {
+                    items.delete(currentProductId);
+                } else {
+                    items.add(currentProductId);
+                }
+                setWishlistItems([...items]);
+                updateWishlistButton();
+            }
+
+            function updateSelectedOptions() {
+                selectedOptionsEl.textContent = `Size: ${selectedSize} · Color: ${selectedColor}`;
+                selectedColorText.textContent = `Selected color: ${selectedColor}`;
+            }
+
+            function updateCartBadge() {
+                const total = getCartItems().reduce((sum, item) => sum + item.quantity, 0);
+                cartCount = total;
+                if (cartCountEl) {
+                    cartCountEl.textContent = total;
+                }
+            }
+
+            function loadProduct(id) {
+                const product = products.find(item => item.id === id);
+                if (!product) return;
+
+                currentProductId = id;
+                selectedSize = "38mm";
+                selectedColor = "Black";
+                quantity = 1;
+                qtyInput.value = quantity;
+
+                productTitleEl.textContent = product.title;
+                productPriceEl.textContent = formatCurrency(product.price);
+                oldPriceEl.textContent = formatCurrency(product.oldPrice);
+                saveBadgeEl.textContent = `Save ${Math.round((1 - product.price / product.oldPrice) * 100)}%`;
+                ratingValueEl.textContent = `${product.rating}/5`;
+                reviewsCountEl.textContent = `${product.reviews} Reviews`;
+                stockStatusEl.textContent = product.stock;
+                productDescEl.textContent = product.desc;
+                mainProductImage.src = product.image;
+
+                thumbs.forEach((img, index) => {
+                    img.src = product.thumbnails[index] || product.image;
+                    img.classList.toggle("active", index === 0);
+                });
+
+                sizeButtons.forEach(btn => btn.classList.toggle("active", btn.textContent.trim() === selectedSize));
+                colorButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.color === selectedColor));
+
+                updateSelectedOptions();
+                updateWishlistButton();
+
+                const specItems = document.querySelectorAll("#specTab .list-group-item");
+                product.specs.forEach((spec, index) => {
+                    if (specItems[index]) {
+                        specItems[index].textContent = spec;
+                    }
+                });
+
+                const url = new URL(window.location.href);
+                url.searchParams.set("id", currentProductId);
+                window.history.replaceState({}, "", url.toString());
+            }
+
+            function addToCart() {
+                const product = getCurrentProduct();
+                if (!product) return;
+
+                const cartItems = getCartItems();
+                const existing = cartItems.find(item => item.id === currentProductId && item.size === selectedSize && item.color === selectedColor);
+                if (existing) {
+                    existing.quantity += quantity;
+                } else {
+                    cartItems.push({
+                        id: product.id,
+                        title: product.title,
+                        price: product.price,
+                        image: product.image,
+                        size: selectedSize,
+                        color: selectedColor,
+                        quantity,
+                    });
+                }
+                setCartItems(cartItems);
+                updateCartBadge();
+                toastText.textContent = `${quantity} item(s) added to cart`;
+                toast.show();
+            }
+
+            function buyNow() {
+                addToCart();
+                window.location.href = "checkout.html";
+            }
+
+            thumbs.forEach(img => {
+                img.addEventListener("click", function () {
+                    if (!this.src) return;
+                    mainProductImage.src = this.src.replace("w=500", "w=1000");
+                    thumbs.forEach(i => i.classList.remove("active"));
+                    this.classList.add("active");
+                });
+            });
+
+            sizeButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    sizeButtons.forEach(btn => btn.classList.remove("active"));
+                    this.classList.add("active");
+                    selectedSize = this.textContent.trim();
+                    updateSelectedOptions();
+                });
+            });
+
+            colorButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    colorButtons.forEach(btn => btn.classList.remove("active"));
+                    this.classList.add("active");
+                    selectedColor = this.dataset.color || selectedColor;
+                    updateSelectedOptions();
+                });
+            });
+
+            increaseQty.addEventListener("click", function () {
+                quantity++;
+                qtyInput.value = quantity;
+            });
+
+            decreaseQty.addEventListener("click", function () {
+                if (quantity > 1) {
+                    quantity--;
+                    qtyInput.value = quantity;
+                }
+            });
+
+            addToCartBtn.addEventListener("click", addToCart);
+            buyNowBtn.addEventListener("click", buyNow);
+            wishlistBtn.addEventListener("click", toggleWishlist);
+
+            document.querySelectorAll(".related-view-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    loadProduct(Number(this.dataset.productId));
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
+            });
+
+            const urlProductId = parseProductIdFromUrl();
+            if (urlProductId) {
+                currentProductId = urlProductId;
+            }
+
+            window.addToCart = addToCart;
+            window.buyNow = buyNow;
+            window.toggleWishlist = toggleWishlist;
+            window.loadProduct = loadProduct;
+
+            loadProduct(currentProductId);
+            updateCartBadge();
+        })();
+    </script>
+</body>
+
+</html>

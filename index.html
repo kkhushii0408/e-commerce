@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxora Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --accent: #0d6efd;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #198754;
+            --danger: #dc3545;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", sans-serif;
+            background: #f5f7fb;
+            color: #0f172a;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: .3px;
+            color: var(--primary) !important;
+        }
+
+        .nav-link {
+            color: var(--secondary) !important;
+            font-weight: 500;
+            margin: 0 .2rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent) !important;
+        }
+
+        .hero-slide {
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #eaf2ff, #f8fbff);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .hero-subtitle {
+            color: #475569;
+            max-width: 540px;
+        }
+
+        .hero-img {
+            max-height: 420px;
+            object-fit: cover;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .12);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: .5rem;
+        }
+
+        .section-subtitle {
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .control-bar {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1rem;
+            box-shadow: 0 8px 22px rgba(15, 23, 42, .05);
+        }
+
+        .filter-btn {
+            border: 1px solid var(--border);
+            background: #fff;
+            color: #334155;
+            padding: .55rem 1rem;
+            border-radius: 999px;
+            font-weight: 600;
+            transition: .25s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .product-card {
+            background: #fff;
+            border: none;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+            transition: .3s ease;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(15, 23, 42, .12);
+        }
+
+        .product-image-wrap {
+            position: relative;
+            overflow: hidden;
+            background: #f8fafc;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            transition: .35s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .9);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+        }
+
+        .wishlist-btn.active {
+            color: var(--danger);
+        }
+
+        .badge-soft {
+            display: inline-block;
+            font-size: .75rem;
+            padding: .45rem .75rem;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-weight: 700;
+        }
+
+        .price {
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+
+        .old-price {
+            color: #94a3b8;
+            text-decoration: line-through;
+            font-size: .95rem;
+        }
+
+        .rating {
+            color: #f59e0b;
+            font-size: .9rem;
+        }
+
+        .benefit-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            height: 100%;
+        }
+
+        .benefit-icon {
+            width: 56px;
+            height: 56px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card {
+            background: #fff;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, .06);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, .12);
+        }
+
+        .testimonial-card img {
+            width: 100%;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+        }
+
+        .testimonial-card .card-body {
+            padding: 1.6rem;
+        }
+
+        .testimonial-card .rating {
+            color: #f59e0b;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        .testimonial-role {
+            color: #64748b;
+            font-size: .9rem;
+        }
+
+        .promo-banner {
+            background: linear-gradient(135deg, #0d6efd, #2563eb);
+            border-radius: 28px;
+            padding: 2rem;
+            color: #ffffff;
+            overflow: hidden;
+            box-shadow: 0 24px 42px rgba(13, 110, 253, .16);
+        }
+
+        .promo-banner .promo-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .55rem 1rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,.18);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .promo-banner h2 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+        }
+
+        .promo-banner p {
+            color: rgba(255,255,255,.9);
+            max-width: 520px;
+            margin-bottom: 1.5rem;
+        }
+
+        .promo-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 1.35rem;
+            border: 1px solid rgba(15, 23, 42, .08);
+            transition: transform .25s ease, box-shadow .25s ease;
+            box-shadow: 0 14px 32px rgba(15, 23, 42, .06);
+        }
+
+        .promo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 36px rgba(15, 23, 42, .12);
+        }
+
+        .promo-card .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: #eef2ff;
+            color: #1d4ed8;
+            margin-right: 1rem;
+        }
+
+        .promo-card h6 {
+            font-weight: 700;
+            margin-bottom: .25rem;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+        }
+
+        footer a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        .cart-badge {
+            font-size: .72rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .toast-box {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1080;
+            min-width: 260px;
+        }
+
+        @media(max-width:768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-slide {
+                min-height: auto;
+                padding: 3rem 0;
+            }
+
+            .product-card img {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="bi bi-bag-check me-2"></i>Luxora</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <a class="btn btn-outline-dark position-relative" href="wishlist.html">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a class="btn btn-dark position-relative" href="cart.html">
+                        <i class="bi bi-cart3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="hero-slide">
+                        <div class="container">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-6">
+                                    <span class="badge-soft mb-3">New Season Collection</span>
+                                    <h1 class="hero-title">Premium products for modern lifestyle</h1>
+                                    <p class="hero-subtitle mb-4">Discover elegant, high-quality essentials designed for
+                                        comfort, style, and everyday convenience.</p>
+                                    <a href="#products" class="btn btn-primary btn-lg px-4">Shop Now</a>
+                                </div>
+                                <div class="col-lg-6 text-center">
+                                    <img class="hero-img img-fluid"
+                                        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900&auto=format&fit=crop"
+                                        alt="Premium watch">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="hero-slide">
+                        <div class="container">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-6">
+                                    <span class="badge-soft mb-3">Exclusive Deals</span>
+                                    <h1 class="hero-title">Smart shopping with better experience</h1>
+                                    <p class="hero-subtitle mb-4">Fast browsing, clear filters, instant actions, and
+                                        trusted product presentation for better buying decisions.</p>
+                                    <a href="#products" class="btn btn-dark btn-lg px-4">Explore Products</a>
+                                </div>
+                                <div class="col-lg-6 text-center">
+                                    <img class="hero-img img-fluid"
+                                        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&auto=format&fit=crop"
+                                        alt="Premium headphones">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+    <section id="products" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center">Featured Products</h2>
+            <p class="section-subtitle text-center">Professional layout with real interactive controls</p>
+
+            <div class="control-bar mb-4">
+                <div class="row g-3 align-items-center">
+                    <div class="col-lg-7">
+                        <div class="d-flex flex-wrap gap-2" id="filterButtons">
+                            <button class="filter-btn active" data-category="all">All</button>
+                            <button class="filter-btn" data-category="electronics">Electronics</button>
+                            <button class="filter-btn" data-category="fashion">Fashion</button>
+                            <button class="filter-btn" data-category="beauty">Beauty</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <select id="sortSelect" class="form-select">
+                            <option value="default">Sort by</option>
+                            <option value="low">Price: Low to High</option>
+                            <option value="high">Price: High to Low</option>
+                            <option value="rating">Top Rated</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4" id="productList"></div>
+        </div>
+    </section>
+
+
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center">Why customers trust us</h2>
+            <p class="section-subtitle text-center">Focused on usability, delivery, and simple shopping flow</p>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="bi bi-truck"></i></div>
+                        <h5>Fast Delivery</h5>
+                        <p class="mb-0 text-secondary">Quick and secure shipping experience for every order.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="bi bi-shield-check"></i></div>
+                        <h5>Secure Payments</h5>
+                        <p class="mb-0 text-secondary">Professional checkout flow with trusted payment handling.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="bi bi-arrow-repeat"></i></div>
+                        <h5>Easy Returns</h5>
+                        <p class="mb-0 text-secondary">Clear return support to reduce customer hesitation.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="benefit-card">
+                        <div class="benefit-icon"><i class="bi bi-headset"></i></div>
+                        <h5>Customer Help</h5>
+                        <p class="mb-0 text-secondary">Support-first experience with simple communication access.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">What customers say</h2>
+                <p class="section-subtitle">Real opinions from shoppers who love our products and experience.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="card-body">
+                            <div class="rating mb-3">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="text-secondary">"Fast delivery and top-quality items. The shopping experience was smooth and the product arrived exactly as pictured."</p>
+                            <div class="testimonial-author">Ananya S.</div>
+                            <div class="testimonial-role">Fashion Enthusiast</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="card-body">
+                            <div class="rating mb-3">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="text-secondary">"The product details and checkout flow were perfect. I love the quality of the smartwatch and the packaging was beautiful."</p>
+                            <div class="testimonial-author">Rohit K.</div>
+                            <div class="testimonial-role">Tech Reviewer</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="card-body">
+                            <div class="rating mb-3">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="text-secondary">"I appreciated the clear product cards and quick view modal. It made choosing the right gift easy and enjoyable."</p>
+                            <div class="testimonial-author">Meera P.</div>
+                            <div class="testimonial-role">Gift Shopper</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h4 class="text-white">Luxora</h4>
+                    <p>A modern eCommerce UI built with Bootstrap, custom CSS, and JavaScript-powered interactions.</p>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="text-white">Shop</h6>
+                    <a href="#products" class="d-block mb-2">All Products</a>
+                    <a href="#features" class="d-block mb-2">Features</a>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white">Support</h6>
+                    <a href="#" class="d-block mb-2">Privacy Policy</a>
+                    <a href="#" class="d-block mb-2">Terms</a>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white">Newsletter</h6>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-primary">Join</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <p class="mb-0 text-center">© 2026 Luxora Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="toast-box">
+        <div id="actionToast" class="toast align-items-center text-bg-dark border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage">Action completed</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-body p-4">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-md-6">
+                            <img id="modalImage" src="" class="img-fluid rounded-4" alt="Product image">
+                        </div>
+                        <div class="col-md-6">
+                            <span id="modalCategory" class="badge bg-primary mb-2"></span>
+                            <h3 id="modalTitle"></h3>
+                            <p id="modalDesc" class="text-secondary"></p>
+                            <div class="mb-3">
+                                <span id="modalPrice" class="price"></span>
+                            </div>
+                            <button class="btn btn-dark" id="modalCartBtn">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                title: "Smart Watch Pro",
+                category: "electronics",
+                price: 12999,
+                oldPrice: 14999,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop",
+                desc: "Advanced smartwatch with health tracking and premium finish."
+            },
+            {
+                id: 2,
+                title: "Wireless Headphones",
+                category: "electronics",
+                price: 8499,
+                oldPrice: 9999,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop",
+                desc: "Noise-cancelling audio with deep bass and long battery life."
+            },
+            {
+                id: 3,
+                title: "Running Shoes",
+                category: "fashion",
+                price: 5999,
+                oldPrice: 6999,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop",
+                desc: "Comfortable performance shoes for everyday and active wear."
+            },
+            {
+                id: 4,
+                title: "Skincare Kit",
+                category: "beauty",
+                price: 3499,
+                oldPrice: 4299,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&auto=format&fit=crop",
+                desc: "Professional self-care essentials for a complete skincare routine."
+            },
+            {
+                id: 5,
+                title: "Bluetooth Speaker",
+                category: "electronics",
+                price: 2999,
+                oldPrice: 3599,
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&auto=format&fit=crop",
+                desc: "Portable speaker with rich sound and compact premium design."
+            },
+            {
+                id: 6,
+                title: "Classic Handbag",
+                category: "fashion",
+                price: 4599,
+                oldPrice: 5299,
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop",
+                desc: "Elegant handbag for formal and casual styling."
+            }
+        ];
+
+        let cartCount = 0;
+        let currentCategory = "all";
+        let currentSearch = "";
+        let currentSort = "default";
+        let selectedProduct = null;
+
+        const productList = document.getElementById("productList");
+        const searchInput = document.getElementById("searchInput");
+        const sortSelect = document.getElementById("sortSelect");
+        const cartCountEl = document.getElementById("cartCount");
+        const toastEl = document.getElementById("actionToast");
+        const toastMessage = document.getElementById("toastMessage");
+        let bsToast;
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            try {
+                if (!bsToast && typeof bootstrap !== 'undefined') {
+                    bsToast = new bootstrap.Toast(toastEl);
+                }
+                if (bsToast) bsToast.show();
+            } catch (e) {
+                // if bootstrap not available yet, silently ignore toast
+            }
+        }
+
+        function formatPrice(price) {
+            return "₹" + price.toLocaleString("en-IN");
+        }
+
+        const WISHLIST_STORAGE_KEY = "luxoraWishlistItems";
+        const CART_STORAGE_KEY = "luxoraCartItems";
+
+        function getWishlistItems() {
+            return JSON.parse(localStorage.getItem(WISHLIST_STORAGE_KEY) || "[]");
+        }
+
+        function setWishlistItems(items) {
+            localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
+        }
+
+        function getCartItems() {
+            return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+        }
+
+        function setCartItems(items) {
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+        }
+
+        function updateCartBadge() {
+            const count = getCartItems().reduce((sum, item) => sum + (item.quantity || 1), 0);
+            if (cartCountEl) cartCountEl.textContent = count;
+            cartCount = count;
+        }
+
+        function renderProducts() {
+            const wishlistItems = getWishlistItems();
+            let filtered = [...products];
+
+            if (currentCategory !== "all") {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            if (currentSearch.trim() !== "") {
+                filtered = filtered.filter(p =>
+                    p.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    p.category.toLowerCase().includes(currentSearch.toLowerCase())
+                );
+            }
+
+            if (currentSort === "low") {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (currentSort === "high") {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (currentSort === "rating") {
+                filtered.sort((a, b) => b.rating - a.rating);
+            }
+
+            productList.innerHTML = filtered.map(product => `
+        <div class="col-md-6 col-lg-4">
+          <div class="product-card">
+            <div class="product-image-wrap">
+              <img src="${product.image}" alt="${product.title}">
+              <button class="wishlist-btn ${wishlistItems.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist(this, ${product.id})">
+                <i class="bi ${wishlistItems.includes(product.id) ? 'bi-heart-fill' : 'bi-heart'}"></i>
+              </button>
+            </div>
+            <div class="p-4">
+              <span class="badge-soft text-capitalize">${product.category}</span>
+              <h5 class="mt-3 mb-2">${product.title}</h5>
+              <p class="text-secondary small mb-2">${product.desc}</p>
+              <div class="rating mb-2">
+                <i class="bi bi-star-fill"></i> ${product.rating} Rating
+              </div>
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="price">${formatPrice(product.price)}</span>
+                <span class="old-price">${formatPrice(product.oldPrice)}</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-primary flex-grow-1" onclick="addToCart('${product.title}')">
+                  <i class="bi bi-cart-plus me-1"></i>Add
+                </button>
+                <button class="btn btn-outline-dark" onclick="quickView(${product.id})">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+            if (filtered.length === 0) {
+                productList.innerHTML = `
+          <div class="col-12">
+            <div class="text-center bg-white rounded-4 p-5 shadow-sm">
+              <i class="bi bi-search fs-1 text-secondary"></i>
+              <h4 class="mt-3">No products found</h4>
+              <p class="text-secondary mb-0">Try another keyword or category filter.</p>
+            </div>
+          </div>
+        `;
+            }
+        }
+
+        function addToCart(productName) {
+            // Add a minimal cart item entry so badge persists across pages
+            const items = getCartItems();
+            const existing = items.find(i => i.title === productName);
+            if (existing) {
+                existing.quantity = (existing.quantity || 1) + 1;
+            } else {
+                items.push({ id: Date.now(), title: productName, price: 0, image: '', quantity: 1 });
+            }
+            setCartItems(items);
+            updateCartBadge();
+            showToast(productName + " added to cart");
+        }
+
+        function toggleWishlist(button, productId) {
+            const wishlistItems = new Set(getWishlistItems());
+            if (wishlistItems.has(productId)) {
+                wishlistItems.delete(productId);
+                button.classList.remove("active");
+            } else {
+                wishlistItems.add(productId);
+                button.classList.add("active");
+            }
+            setWishlistItems([...wishlistItems]);
+            const icon = button.querySelector("i");
+            if (icon) {
+                icon.classList.toggle("bi-heart");
+                icon.classList.toggle("bi-heart-fill");
+            }
+        }
+
+        function quickView(id) {
+            selectedProduct = products.find(p => p.id === id);
+            document.getElementById("modalImage").src = selectedProduct.image;
+            document.getElementById("modalTitle").textContent = selectedProduct.title;
+            document.getElementById("modalDesc").textContent = selectedProduct.desc;
+            document.getElementById("modalPrice").textContent = formatPrice(selectedProduct.price);
+            document.getElementById("modalCategory").textContent = selectedProduct.category;
+            const modal = new bootstrap.Modal(document.getElementById("quickViewModal"));
+            modal.show();
+        }
+
+        const modalCartBtnEl = document.getElementById("modalCartBtn");
+        if (modalCartBtnEl) {
+            modalCartBtnEl.addEventListener("click", function () {
+                if (selectedProduct) {
+                    addToCart(selectedProduct.title);
+                }
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener("input", function () {
+                currentSearch = this.value;
+                renderProducts();
+            });
+        }
+
+        if (sortSelect) {
+            sortSelect.addEventListener("change", function () {
+                currentSort = this.value;
+                renderProducts();
+            });
+        }
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                this.classList.add("active");
+                currentCategory = this.dataset.category;
+                renderProducts();
+            });
+        });
+
+        renderProducts();
+        // initialize badge from storage
+        updateCartBadge();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
