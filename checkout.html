@@ -80,33 +80,26 @@
 
 <body>
 
-    <!-- Navbar — Luxora style matching all other pages -->
+    <!-- Navbar — Luxora premium navbar -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="bi bi-bag-check me-2"></i>Luxora</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#checkoutNav"
-                aria-controls="checkoutNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="checkoutNav">
+            <a class="navbar-brand" href="index.html"><span class="brand-diamond"><i class="bi bi-gem"></i></span>Luxora</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="product.html">Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="categories.html">Categories</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cart.html">
-                        <i class="bi bi-cart me-1"></i>Cart</a></li>
                 </ul>
-
                 <div class="d-flex align-items-center gap-2">
-                    <a class="btn btn-outline-dark position-relative" href="wishlist.html" aria-label="View wishlist">
+                    <a class="nav-btn-wishlist" href="wishlist.html" aria-label="Wishlist">
                         <i class="bi bi-heart"></i>
+                        <span class="nav-badge d-none" id="navWishlistCount">0</span>
                     </a>
-                    <a class="btn btn-dark position-relative" href="cart.html" aria-label="View cart">
-                        <i class="bi bi-cart3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                            id="cartCount">0</span>
+                    <a class="nav-btn-cart" href="cart.html" aria-label="Cart">
+                        <i class="bi bi-cart3"></i> Cart
+                        <span class="nav-badge" id="navCartCount">0</span>
                     </a>
                 </div>
             </div>
@@ -307,35 +300,42 @@
         </div>
     </section>
 
-    <!-- Footer — matches Luxora style -->
-    <footer class="pt-5 pb-4">
-        <div class="container">
-            <div class="row g-4">
+    <footer class="site-footer">
+        <div class="footer-grid-lines"></div>
+        <div class="container position-relative" style="z-index:2;">
+            <div class="row g-5">
                 <div class="col-lg-4">
-                    <h4 class="text-white">Luxora</h4>
-                    <p>A modern eCommerce UI built with Bootstrap, custom CSS, and JavaScript-powered interactions.</p>
+                    <div class="footer-brand-name"><span class="brand-diamond"><i class="bi bi-gem"></i></span>Luxora</div>
+                    <p class="footer-desc">Premium e-commerce for those who demand the best.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                    </div>
                 </div>
-                <div class="col-lg-2">
-                    <h6 class="text-white">Shop</h6>
-                    <a href="index.html" class="d-block mb-2">Home</a>
-                    <a href="product.html" class="d-block mb-2">Products</a>
-                    <a href="categories.html" class="d-block mb-2">Categories</a>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="footer-heading">Shop</div>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="product.html">Products</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                    </ul>
                 </div>
-                <div class="col-lg-3">
-                    <h6 class="text-white">Support</h6>
-                    <a href="contact.html" class="d-block mb-2">Contact Us</a>
-                    <a href="#" class="d-block mb-2">Returns</a>
-                    <a href="#" class="d-block mb-2">Privacy Policy</a>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="footer-heading">Support</div>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
                 </div>
-                <div class="col-lg-3">
-                    <h6 class="text-white">Contact</h6>
-                    <p class="mb-1">support@luxora.com</p>
-                    <p class="mb-0">+91 98765 43210</p>
+                <div class="col-lg-4">
+                    <div class="footer-heading">Contact</div>
+                    <p class="footer-desc">support@luxora.com<br>+91 98765 43210</p>
                 </div>
             </div>
-            <hr class="border-secondary my-4">
-            <p class="mb-0 text-center">© 2026 Luxora. All rights reserved.</p>
         </div>
+        <div class="footer-bottom"><div class="container">© 2026 Luxora. All rights reserved.</div></div>
     </footer>
 
     <script>
@@ -351,7 +351,7 @@
 
         function updateCartBadge() {
             const count = getCartItems().reduce((sum, item) => sum + (item.quantity || 1), 0);
-            const badge = document.getElementById("cartCount");
+            const badge = document.getElementById("navCartCount");
             if (badge) badge.textContent = count;
         }
 
@@ -405,7 +405,7 @@
             document.getElementById("orderSuccess").classList.remove("d-none");
 
             // Reset badge
-            const badge = document.getElementById("cartCount");
+            const badge = document.getElementById("navCartCount");
             if (badge) badge.textContent = "0";
 
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -423,6 +423,19 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    (function(){
+        const CART_KEY="luxoraCartItems", WISH_KEY="luxoraWishlistItems";
+        function upd(){
+            const cc=JSON.parse(localStorage.getItem(CART_KEY)||"[]").reduce((s,i)=>s+i.quantity,0);
+            const wc=JSON.parse(localStorage.getItem(WISH_KEY)||"[]").length;
+            const cb=document.getElementById("navCartCount"),wb=document.getElementById("navWishlistCount");
+            if(cb) cb.textContent=cc;
+            if(wb){wb.textContent=wc;wb.classList.toggle("d-none",wc===0);}
+        }
+        document.addEventListener("DOMContentLoaded",upd);
+    })();
+    </script>
 </body>
 
 </html>
